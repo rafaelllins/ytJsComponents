@@ -1,0 +1,197 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/ytTreeViewProject/ytTreeView/ytTreeView.css">
+		<script language="javascript" type="text/javascript" src="/genericScripts/jquery-1.4.2.min.js"></script>
+		<script language="javascript" type="text/javascript" src="/ytTreeViewProject/ytTreeView/ytTreeView.js"></script>
+		<script language="javascript" type="text/javascript">
+		//TreeView Begin
+		var tree = null;
+		var tree2 = null;
+
+		window.onload = function () {
+		    ytTreeView.PATH_IMAGE = "/ytTreeViewProject/ytTreeView/images/";
+
+		    tree = new ytTreeView({
+		        containerId: "treeview",
+		        instanceName: "tree",
+		        type: ytTreeView.TYPE_CHECK_BOX,
+		        onCheck: tree_onCheck,
+		        onRequestNodes: tree_onRequestNodes,
+		        labelAction: ytTreeView.LABEL_ACTION_HIERARCHICAL
+		    });
+
+		    tree2 = new ytTreeView({
+		        containerId: "treeview2",
+		        instanceName: "tree2",
+		        type: ytTreeView.TYPE_RADIO_BUTTON,
+		        onCheck: tree2_onCheck,
+		        onRequestNodes: tree2_onRequestNodes,
+		        labelAction: ytTreeView.LABEL_ACTION_CHECK,
+		        messageWait: '<img src="' + ytTreeView.PATH_IMAGE + 'ajax-loader.gif" />'
+		    });
+		}
+		
+		function tree_onCheck(){
+			alert("Entrou no evento tree_onCheck");
+		}
+		
+		function tree_onRequestNodes(params){
+			$.ajax({
+			    url: "/ytTreeViewProject/ajax/teste.ashx",
+				dataType: "json",
+				success: function (data) {
+					params.nodes = array2Nodes(data);
+					tree.loadNodes(params);
+				}
+			});
+		}
+		
+		function tree2_onRequestNodes(params){
+			$.ajax({
+			    url: "/ytTreeViewProject/ajax/teste.ashx",
+				dataType: "json",
+				success: function (data) {
+					params.nodes = array2Nodes(data);
+					tree2.loadNodes(params);
+				}
+			});
+		}
+
+		function array2Nodes(arr){
+			var nodes = [];
+			var length = arr.length;
+			
+			for(var x = 0; x < length; x++){
+				var node = {};
+				node.description = arr[x][0];
+				node.value = arr[x][1];
+				node.hasChilds = arr[x][2];
+				
+				if(arr[x].length > 3 && arr[x][3].length > 0){
+					node.childs = array2Nodes(arr[x][3]);
+				}
+				
+				nodes[x] = node;
+			}
+			return nodes;
+		}
+		
+		function tree2_onCheck(){
+			alert("Entrou no evento tree2_onCheck");
+		}
+		
+		function tree_setValores(resultId, tree){
+			element = document.getElementById(resultId);
+			prefixName = document.getElementById("prefixo").value;
+			delimiter = document.getElementById("delimitador").value;
+			element.innerHTML = tree.getAllCheckeds(delimiter);
+		}
+		
+		function tree_setValor(resultId, tree){
+			element = document.getElementById(resultId);
+			element.innerHTML = tree.getChecked();
+		}
+		//TreeView End
+		</script>
+	</head>
+	<body>
+		Parâmetros<br/>
+		Prefixo <input type="text" id="prefixo" value="l" /> Delimitador <input type="text" id="delimitador" value=";" /> <br />
+		<hr />
+		
+		<textarea id="valores" ></textarea>
+		<div id="treeview">
+			<ol class="yt_treeview" onselectstart="return false;">
+				<li class="node">
+					<img class="img_tree" src="./images/plus.gif" onclick="tree.clickNode(this)" />
+					<input type="checkbox" name="gtreeview_ck" value="1" onclick="tree.check(this)" />
+					<a onclick="tree.clickNode(this)">teste 1</a>
+					<ol class="collapse">
+						<li class="node">
+							<img class="img_tree" src="./images/plus.gif" onclick="tree.clickNode(this)" />
+							<input type="checkbox" name="rtreeview_ck" value="11" onclick="tree.check(this)" />
+							<a onclick="tree.clickNode(this)">teste 1.1</a>
+							<ol class="collapse">
+								<li class="node">
+									<img class="img_tree" src="./images/plus.gif" onclick="tree.clickNode(this)" />
+									<input type="checkbox" name="ltreeview_ck" value="111" onclick="tree.check(this)" />
+									<a onclick="tree.clickNode(this)">teste 1.1.1</a>
+									<ol class="collapse">
+										<li class="node">
+											<img class="img_tree" src="./images/plus.gif" onclick="tree.clickNode(this)" />
+											<input type="checkbox" name="xtreeview_ck" value="1111" onclick="tree.check(this)" />
+											<a onclick="tree.clickNode(this)">teste 1.1.1.1</a>
+										</li>
+										<li class="leaf_node">
+											<input type="checkbox" name="xtreeview_ck" value="1112" onclick="tree.check(this)" />
+											<a>teste 1.1.1.2</a>
+										</li>
+									</ol>
+								</li>
+								<li class="leaf_node">
+									<input type="checkbox" name="ltreeview_ck" value="112" onclick="tree.check(this)" />
+									<a>teste 1.1.2</a>
+								</li>
+							</ol>
+						</li>
+						<li class="leaf_node">
+							<input type="checkbox" name="rtreeview_ck" value="12" onclick="tree.check(this)" />
+							<a>teste 1.2</a>
+						</li>
+					</ol>
+				</li>
+			</ol>
+		</div>
+		
+		<input type="button" value="Capturar valores" onclick="tree_setValores('valores', tree)" />
+		
+		<hr />
+		
+		<textarea id="valores2" ></textarea>
+		<div id="treeview2">
+			<ol class="yt_treeview" onselectstart="return false;">
+				<li class="node">
+					<img class="img_tree" src="./images/plus.gif" onclick="tree2.clickNode(this)" />
+					<input type="radio" name="treeview2_rd" value="1" onclick="tree2.check(this)" />
+					<a onclick="tree2.clickNode(this)">teste 1</a>
+					<ol class="collapse">
+						<li class="node">
+							<img class="img_tree" src="./images/plus.gif" onclick="tree2.clickNode(this)" />
+							<input type="radio" name="treeview2_rd" value="11" onclick="tree2.check(this)" />
+							<a onclick="tree2.clickNode(this)">teste 1.1</a>
+							<ol class="collapse">
+								<li class="node">
+									<img class="img_tree" src="./images/plus.gif" onclick="tree2.clickNode(this)" />
+									<input type="radio" name="treeview2_rd" value="111" onclick="tree2.check(this)" />
+									<a onclick="tree2.clickNode(this)">teste 1.1.1</a>
+									<ol class="collapse">
+										<li class="node">
+											<img class="img_tree" src="./images/plus.gif" onclick="tree2.clickNode(this)" />
+											<input type="radio" name="treeview2_rd" value="1111" onclick="tree2.check(this)" />
+											<a onclick="tree2.clickNode(this)">teste 1.1.1.1</a>
+										</li>
+										<li class="leaf_node">
+											<input type="radio" name="treeview2_rd" value="1112" onclick="tree2.check(this)" />
+											<a>teste 1.1.1.2</a>
+										</li>
+									</ol>
+								</li>
+								<li class="leaf_node">
+									<input type="radio" name="treeview2_rd" value="112" onclick="tree2.check(this)" />
+									<a>teste 1.1.2</a>
+								</li>
+							</ol>
+						</li>
+						<li class="node">
+							<img class="img_tree" src="./images/plus.gif" onclick="tree2.clickNode(this)" />
+							<input type="radio" name="treeview2_rd" value="12" onclick="tree2.check(this)" />
+							<a onclick="tree2.clickNode(this)">teste 1.2</a>
+						</li>
+					</ol>
+				</li>
+			</ol>
+		</div>
+		
+		<input type="button" value="Capturar valores" onclick="tree_setValor('valores2', tree2)" />
+	</body>
+</html>

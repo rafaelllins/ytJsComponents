@@ -1,0 +1,31 @@
+ol.yt_treeview li.node,ol.yt_treeview li.leaf_node{
+	list-style-type:none;
+	margin:1px 0px 1px -34px;
+}
+
+ol.yt_treeview ol.collapse{
+	display:none;
+}
+
+ol.yt_treeview ol.expand{
+	display:block;
+}
+
+ol.yt_treeview ol.expand li a{
+	cursor:pointer;
+}
+
+ol.yt_treeview ol.expand li.node{
+	padding-left:10px;
+}
+
+ol.yt_treeview ol.expand li.leaf_node
+{
+	padding-left:24px;
+	cursor:default;
+}
+
+ol.yt_treeview li.node img.img_tree{
+	margin: 0px 0px 2px 1px;
+	cursor:pointer;
+}
