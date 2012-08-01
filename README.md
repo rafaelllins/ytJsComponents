@@ -15,7 +15,7 @@ A partir de todos esses problemas, decidi criar um novo componente TreeView, que
 Principais características do ytTreeView:
 * Carregamento de sub-nós sob demanda.
 * A requisição retorna somente os nós necessários.
-* A inserção do elementos HTML correspondente aos novos sub-nós requisitados é realizada via DOM (client-side). 
+* A inserção dos elementos HTML correspondente aos novos sub-nós requisitados é realizada via DOM (client-side). 
   
   O retorno da requisição é feito via JSON, reduzindo muito com a transferência de dados. Como uma adição (Criação de elementos via DOM para cada sub-nó) de milhares de nós vindas de uma única requisição também tornaria o browser a travar por alguns segundos ou minutos. A solução foi fazê-lo parar (alguns milissegundos. (Configurável) a cada intervalo de “X”(Configurável)  iterações (sub-nós criados). Assim, ao expandir um nó com grande volume de sub-nós a serem carregados, existirá um “load...” ao lado do nó que foi expandido que será exibido do momento da requisição ajax até o momento que será adicionado o último nó na “Tela”. Graças a estas curtas paradas (simulando um thread rodando em background), o resultado final é que o gif do load funciona normalmente, o browser não trava (cabeçalho “não respondendo...”), não é emitido o alerta “Deseja continuar a execução deste script?” e é possível visualizar os sub-nós sendo carregados com o scroll horizontal se movimentando em tempo real.
 
