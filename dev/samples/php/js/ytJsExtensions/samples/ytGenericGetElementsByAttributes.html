@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ytGeneric - get(Groups)ElementsByAttributes - Sample</title>
+	<!-- O único método utilizado deste arquivo é o Element.prototype.getElementsByAttributes -->
+	<script language="javascript" type="text/javascript" src="../extensions/Element.ext.js"></script>
+	<script language="javascript" type="text/javascript">
+		window.onload = function(){	
+			alert(document);
+			var allEls = document.getElementsByAttributes({tagName:"div", className:"grupoB"});
+			
+			alert(allEls[1].element.className + "[" + allEls[0].index + "]");
+			
+			//Equivalente ao getElementById
+			var obj = document.getElementsByAttributes({id:"divC2"},{single:true}).element;
+			obj.innerHTML = "Testando o método getElementsByAttributes";
+			
+			var allEls = document.getGroupsElementsByAttributes(
+			[
+				{//Consulta elementos div e classe nivel3 
+					groupName:"minhaDiv",
+					single:false,
+					attributes:{
+						tagName:"div",
+						className:"nivel3"
+					}
+				},
+				{//Consulta elementos com id divC2 e classe centralizado
+					groupName:"divC1",
+					single:true,
+					attributes:{
+						id:"divC2",
+						className:"centralizado"
+					}
+				}
+			],{recursive:true});
+			
+			alert(allEls.divC1.element.tagName + "[" + allEls.divC1.index + "]");
+			
+			alert("Total de ocorrencias em minhaDiv: " + allEls.minhaDiv.length + "\n Segundo elemento encontrado: " 
+				+ allEls.minhaDiv[1].element.tagName + "[" + allEls.minhaDiv[1].index + "]");
+			allEls.minhaDiv[0].element.style.height = "20px";
+			allEls.minhaDiv[1].element.style.height = "20px";
+			allEls.minhaDiv[1].element.style.width = "300px";
+			allEls.minhaDiv[2].element.style.height = "20px";
+			allEls.minhaDiv[0].element.style.backgroundColor = "#FFFAAA";
+			allEls.minhaDiv[1].element.style.backgroundColor = "#FFFDDD";
+			allEls.minhaDiv[2].element.style.backgroundColor = "#FFF333";
+		};
+	</script>
+</head>
+<body>
+	<div id="divA1">
+		<div id="divB1" class="grupoB">
+			<div class="nivel3" id="divC1">
+				<div>
+					<div class="centralizado" id="divC2">
+					
+					</div>
+					<span class="nivel3"></span>
+					<div class="nivel3">
+						<span class="nivel3"></span>
+					</div>
+				</div>
+			</div>
+			<div class="nivel3">
+		
+			</div>
+		</div>
+		<div id="divB2" class="grupoB">
+		
+		</div>
+	</div>
+</body>
+</html>

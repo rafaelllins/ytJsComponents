@@ -10,17 +10,19 @@ criado: 06/01/2009
 BUG:
 [X]  - 	getCheckeds não retorna valores
 [X]  - 	O id do checkbox não poderá receber o node.value como parte de seu valor ou o mesmo terá de ser tratado
-[!]* - 	Ao inserir os elementos dinamicamente está havendo distorção de estilo ** Não sei mais o que fazer...
+[!]* - 	Ao inserir os elementos dinamicamente está havendo distorção de estilo ** Várias tentativas já foram realizadas...
 [ ]  - 	No IE ao carregar nós dinamicamente numa treeview do tipo checkbox os mesmos não ficam checados quando necessário.
 [ ]  - 	Para o tipo treeview checkbox, quando um nó for checado e requisitado com todos os valores ou valores de um prefixName não encontrado, o mesmo
 		deve verificar se existe níveis de nós a serem consultados via ajax, até que os encontre. Caso contrário só deverá parar com as requisições
 		quando a árvore não tiver mais nós a serem carregados.
+[ ]  -  Ao criar nós dinamicamente, inserir a opção do prefixo (name) (Avaliar se seria melhor fazer o controle automaticamente por níveis em largura).
 **************************************************************************************************************************************************/
 
 /*************************************************************************************************************************************************
 TASK:
 [X]  - 	Evoluir componente de modo a receber nós de requisições ajax realizadas de fora.
-[P]  - 	Criar métodos genéricos para buscar em elementos e consultar um ou vários de seus atributos. Realizar substituição nos locais necessários.
+[P]  - 	Criar métodos genéricos para buscar em elementos e consultar um ou vários de seus atributos. FALTA apenas realizar substituição nos locais necessários 
+		e realizar testes que comprovem ter um desempenho igual ou superior à implementação atual.
 [ ]* - 	Adicionar método responsável por criar toda a treeview no momento em que é instanciada. O parâmetro params.data deve ser passado.
 [X]* - 	Adicionar ao Node o atributo Expanded
 [!]* - 	Adicionar opções de ToolTip para asções Expand/Collapse e Check -> radiobutton / Check/Uncheck -> checkbox. Valores default com base no 
@@ -30,6 +32,9 @@ TASK:
 [X]* -	Ao carregar um conjunto de nós sob demanda, carregá-los pausadamente.
 [X]* -	Adicionar uma quantidade de nós que serão carregados a cada iteração.
 [ ]  -	O tipo node deve receber o atributo elementLI
+[ ]  -  Ter a possibilidade de visualizar uma barra de progresso no momento de adição dos nós.
+[ ]  -  Criar o evento onCheck
+[ ]  -  Realizar um comporativo de desempenho entre as implementações das duas funções (getGroupsElementsByAttributes e getElementsByAttributes) com uma equivalência em jQuery.
 **************************************************************************************************************************************************/
 
 /*********************************************************************************************
